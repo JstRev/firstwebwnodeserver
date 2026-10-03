@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API</title>
+
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/weather.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <main class="page-shell">
+        <div class="weather-wrapper">
+            <section class="weather-box">
+                <span class="badge">Weather API</span>
+                <h2>Controlla il meteo</h2>
+                <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
+
+                <form id="weather-form" action="/weather" method="POST">
+                    <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
+                    <button type="submit">Invia</button>
+                </form>
+            </section>
+
+            <section class="weather-box" id="weather-result" aria-live="polite">
+                <div class="empty-state">Nessuna città cercata ancora.</div>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        fetch('components/navbar.html')
+            .then(response => response.text())
+            .then(html => {
+                navbar.innerHTML = html;
+                const currentPath = window.location.pathname;
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    const target = link.getAttribute('href');
+                    if ((target === '/' && currentPath === '/') || target === currentPath) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
+    <script src="js/weather.js"></script>
+</body>
+
+</html>

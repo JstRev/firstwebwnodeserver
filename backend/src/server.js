@@ -29,6 +29,33 @@ app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "../../frontend/public/login.html"));
 });
 
+app.get("/weather", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../frontend/public/weather.html"));
+});
+
+app.post('/weather', (req, res) => {
+    const city = (req.body.city || '').trim();
+
+    if (!city) {
+        return res.status(400).json({
+            ok: false,
+            message: 'Inserisci il nome di una città.'
+        });
+    }
+
+    const conditions = ['Soleggiato', 'Nuvoloso', 'Pioggia leggera', 'Temporali in arrivo', 'Vento moderato'];
+    const temperature = Math.floor(Math.random() * 21) + 12;
+    const index = city.length % conditions.length;
+
+    return res.json({
+        ok: true,
+        city,
+        condition: conditions[index],
+        temperature: temperature,
+        message: `A ${city} oggi ci sono ${conditions[index].toLowerCase()} con ${temperature}°C.`
+    });
+});
+
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
