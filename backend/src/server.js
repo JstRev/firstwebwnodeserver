@@ -1,4 +1,4 @@
-var express = require("express");
+﻿var express = require("express");
 var path = require("path");
 var app = express();
 var port = 3000;
@@ -33,8 +33,8 @@ app.get("/weather", (req, res) => {
     res.sendFile(path.join(__dirname, "../../frontend/public/weather.html"));
 });
 
-app.post('/weather', (req, res) => {
-    const city = (req.body.city || '').trim();
+app.post('/weather', async (req, res) => {
+    const city = String(req.body.city || '').trim();
 
     if (!city) {
         return res.status(400).json({
@@ -43,17 +43,36 @@ app.post('/weather', (req, res) => {
         });
     }
 
-    const conditions = ['Soleggiato', 'Nuvoloso', 'Pioggia leggera', 'Temporali in arrivo', 'Vento moderato'];
-    const temperature = Math.floor(Math.random() * 21) + 12;
-    const index = city.length % conditions.length;
+    try {
+        const apiKey = process.env.OPENWEATHER_API_KEY || '11285f08bb363a34dda96432d5c6eb8b';
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric&lang=it`
+        );
+        const data = await response.json();
 
-    return res.json({
-        ok: true,
-        city,
-        condition: conditions[index],
-        temperature: temperature,
-        message: `A ${city} oggi ci sono ${conditions[index].toLowerCase()} con ${temperature}°C.`
-    });
+        if (!response.ok || data.cod !== 200) {
+            return res.status(response.status || 400).json({
+                ok: false,
+                message: data.message || 'Città non trovata.'
+            });
+        }
+
+        return res.json({
+            ok: true,
+            city: data.name,
+            condition: data.weather[0].description,
+            temperature: Math.round(data.main.temp),
+            humidity: data.main.humidity,
+            wind: data.wind.speed,
+            message: `Meteo a ${data.name}: ${data.weather[0].description} con ${Math.round(data.main.temp)}°C.`
+        });
+    } catch (error) {
+        console.error('Weather API error:', error);
+        return res.status(500).json({
+            ok: false,
+            message: 'Errore nel server durante la richiesta meteo.'
+        });
+    }
 });
 
 app.post('/login', (req, res) => {
