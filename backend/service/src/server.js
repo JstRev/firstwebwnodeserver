@@ -6,7 +6,7 @@ const pagesRoutes = require("./routes/pageroutes");
 const authRoutes = require("./routes/auth");
 const weatherRoutes = require("./routes/weather");
 
-const frontendDir = path.resolve(__dirname, "..", "..", "..", "..", "frontend", "public");
+const frontendDir = path.resolve(__dirname, "..", "..", "..", "frontend", "public");
 
 const app = express();
 const port = 3000;
