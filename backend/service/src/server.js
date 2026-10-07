@@ -3,34 +3,35 @@ var path = require("path");
 var app = express();
 var port = 3000;
 var bodyParser = require("body-parser");
+var frontendDir = path.resolve(__dirname, "..", "..", "..", "frontend", "public");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "../../frontend/public")));
+app.use(express.static(frontendDir));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/index.html"));
+    res.sendFile(path.join(frontendDir, "index.html"));
 });
 
 app.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/about.html"));
+    res.sendFile(path.join(frontendDir, "about.html"));
 });
 
 app.get("/contact", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/contact.html"));
+    res.sendFile(path.join(frontendDir, "contact.html"));
 });
 
 app.get("/signup", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/signup.html"));
+    res.sendFile(path.join(frontendDir, "signup.html"));
 });
 
 app.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/login.html"));
+    res.sendFile(path.join(frontendDir, "login.html"));
 });
 
 app.get("/weather", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../frontend/public/weather.html"));
+    res.sendFile(path.join(frontendDir, "weather.html"));
 });
 
 app.post('/weather', async (req, res) => {
