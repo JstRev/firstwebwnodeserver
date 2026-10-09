@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { getWeather } = require("../controllers/weatherController");
+const { weatherController } = require('../controllers/weatherController');
 
-router.post("/weather", getWeather);
+router.get('/weather', weatherController);
 
 module.exports = router;
