@@ -35,25 +35,7 @@
 
     <div id="footer"></div>
 
-    <script>
-        const navbar = document.getElementById('navbar');
-        fetch('components/navbar.html')
-            .then(response => response.text())
-            .then(html => {
-                navbar.innerHTML = html;
-                const currentPath = window.location.pathname;
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    const target = link.getAttribute('href');
-                    if ((target === '/' && currentPath === '/') || target === currentPath) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-        fetch('components/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer').innerHTML = html);
-    </script>
+    <script src="js/common.js"></script>
     <script src="js/weather.js"></script>
 </body>
 
