@@ -1,7 +1,7 @@
 const { getWeather } = require("../utils/apiClient.js");
 const { normalizeWeather } = require("../utils/normalizeWeather");
 const { validateCity } = require("../utils/validateCity");
-const { WEATHER_API_KEY } = require("../utils/constants");
+const { WEATHER_API_KEY } = require("../../config/env");
 const { logError } = require("../utils/logger");
 
 exports.weatherController = async (req, res) => {

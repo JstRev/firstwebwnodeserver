@@ -1,7 +1,8 @@
+const { WEATHER_API_URL } = require("./constants");
 const fetchFn = globalThis.fetch || require("node-fetch");
 
 async function getWeather(city, apikey) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city.trim())}&appid=${apikey}&units=metric&lang=it`;
+  const url = `${WEATHER_API_URL}?q=${encodeURIComponent(city.trim())}&appid=${apikey}&units=metric&lang=it`;
 
   const response = await fetchFn(url);
 
