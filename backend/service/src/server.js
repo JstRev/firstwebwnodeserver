@@ -1,10 +1,9 @@
-const express = require("express");              // Importa il framework Express.
-const path = require("path");                    // Importa il modulo per gestire i percorsi dei file.
-const app = express();                           // Crea l'applicazione Express.
-const bodyParser = require("body-parser");       // Importa il middleware per leggere il corpo delle richieste.
-require("dotenv").config();                      // Carica le variabili d'ambiente dal file .env nella root del progetto.
-const { PORT } = require("./utils/constants");   // Importa la porta dalle variabili d'ambiente.
-const port = PORT || 3000;                       // Usa la porta dall'env, altrimenti il default 3000.
+const express = require("express");
+const path = require("path");
+const app = express();
+const bodyParser = require("body-parser");
+const { PORT } = require("../config/env");
+const port = Number(PORT) || 3000;
 
 
 
@@ -40,9 +39,3 @@ app.listen(port, ()=> {                        // Avvia il server sulla porta de
 console.log("Server in ascolto alla porta " + port); // Scrive in console la porta di ascolto.
 console.log('accedi all indirizzo http://localhost:'+port) // Scrive in console l'indirizzo da aprire nel browser.
 }); // Chiude il metodo listen.
-
-
-
-
-
-

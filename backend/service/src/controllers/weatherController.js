@@ -7,9 +7,6 @@ const { logError } = require("../utils/logger");
 exports.weatherController = async (req, res) => {
   const city = req.body.city;
 
-  console.log("DEBUG API KEY:", WEATHER_API_KEY); // Stampa la chiave API per il debug
-  console.log("DEBUG CITY:", city); // Stampa la città per il debug
-
   if (!validateCity(city)) {
     return res.json({ error: true, message: "Citta' non valida" });
   }
