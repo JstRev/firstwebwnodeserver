@@ -1,41 +1,29 @@
-const { getWeather } = require("../utils/apiClient.js");
+const { getWeather } = require("../utils/apiclient");
 const { normalizeWeather } = require("../utils/normalizeWeather");
 const { validateCity } = require("../utils/validateCity");
 const { WEATHER_API_KEY } = require("../../config/env");
 const { logError } = require("../utils/logger");
 
 exports.weatherController = async (req, res) => {
-  const city = (req.body?.city || req.query?.city || "").toString().trim();
+  const city = req.body.city;
+
+  console.log("DEBUG API KEY:", WEATHER_API_KEY); // Stampa la chiave API per il debug
+  console.log("DEBUG CITY:", city); // Stampa la città per il debug
 
   if (!validateCity(city)) {
-    return res.status(400).json({
-      ok: false,
-      message: "Città non valida",
-    });
+    return res.json({ error: true, message: "Citta' non valida" });
   }
 
   try {
     const data = await getWeather(city, WEATHER_API_KEY);
 
-    if (data?.cod !== 200) {
-      return res.status(404).json({
-        ok: false,
-        message: data?.message || "Città non trovata",
-      });
+    if (data.cod !== 200) {
+      return res.json({ error: true, message: "Citta' non trovata" });
     }
 
-    const normalizedWeather = normalizeWeather(data);
-
-    if (!normalizedWeather.ok) {
-      return res.status(400).json(normalizedWeather);
-    }
-
-    return res.status(200).json(normalizedWeather);
+    return res.json(normalizeWeather(data));
   } catch (err) {
-    logError(err, "weatherController");
-    return res.status(500).json({
-      ok: false,
-      message: "Errore nel server",
-    });
+    logError(err);
+    return res.json({ error: true, message: "Errore nel server" });
   }
 };

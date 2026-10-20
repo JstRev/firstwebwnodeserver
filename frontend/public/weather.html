@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather API</title>
-
+    <title>Weather</title>
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/weather.css">
 </head>
-
 <body>
     <div id="navbar"></div>
+    <script>
+        fetch('/api/v1/components/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
 
-    <main class="page-shell">
-        <div class="weather-wrapper">
-            <section class="weather-box">
-                <span class="badge">Weather API</span>
-                <h2>Controlla il meteo</h2>
-                <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
+    <main class="page-shell weather-shell">
+        <section class="weather-box">
+            <span class="eyebrow">Weather</span>
+            <h1>Controlla il meteo</h1>
+            <p class="subtitle">Inserisci il nome di una città per vedere le condizioni attuali.</p>
 
-                <form id="weather-form" action="/weather" method="POST">
-                    <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
-                    <button type="submit">Invia</button>
-                </form>
-            </section>
+            <form id="weather-form" action="/weather" method="POST">
+                <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </section>
 
-            <section class="weather-box" id="weather-result" aria-live="polite">
-                <div class="empty-state">Nessuna città cercata ancora.</div>
-            </section>
-        </div>
+        <section class="weather-box result-box" id="weather-result"></section>
     </main>
 
     <div id="footer"></div>
-
-    <script src="js/common.js"></script>
-    <script src="js/weather.js"></script>
+    <script>
+        fetch('/api/v1/components/footer.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
+    <script src="/js/weather.js"></script>
 </body>
-
 </html>

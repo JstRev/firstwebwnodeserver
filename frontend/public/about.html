@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,39 +8,42 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
-
 <body>
     <div id="navbar"></div>
+    <script>
+        fetch('/api/v1/components/navbar.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
 
     <main class="page-shell">
         <section class="content-card">
-            <span class="badge">About</span>
-            <h1>We build simple digital experiences</h1>
-            <p>
-                Our goal is to create clean, easy-to-use web interfaces that help people work faster,
-                collaborate better, and focus on what matters most.
-            </p>
+            <span class="eyebrow">About</span>
+            <h1>Una base semplice per mostrare le tue pagine.</h1>
+            <p>Questa app mette insieme una navigazione pulita, forme di accesso e un piccolo servizio meteo.</p>
 
             <div class="feature-grid">
-                <article class="feature-item">
-                    <h3>Clarity</h3>
-                    <p>Simple interfaces designed to be intuitive from the first visit.</p>
+                <article>
+                    <h3>Design</h3>
+                    <p>Layout chiaro, colori leggeri e componenti facili da leggere.</p>
                 </article>
-                <article class="feature-item">
-                    <h3>Speed</h3>
-                    <p>Fast layouts and lightweight pages that keep navigation smooth.</p>
+                <article>
+                    <h3>UX</h3>
+                    <p>Pagine ordinate e navigazione diretta senza distrazioni.</p>
                 </article>
-                <article class="feature-item">
-                    <h3>Trust</h3>
-                    <p>Reliable and consistent experiences across every page of the app.</p>
+                <article>
+                    <h3>Funzionalità</h3>
+                    <p>Login, registrazione e ricerca meteo in un unico flusso.</p>
                 </article>
             </div>
         </section>
     </main>
 
     <div id="footer"></div>
-
-    <script src="js/common.js"></script>
+    <script>
+        fetch('/api/v1/components/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
 </body>
-
 </html>

@@ -1,73 +1,9 @@
-const registeredUsers = [];
+exports.login = (req, res) => {              // Definisce la route POST per elaborare il login.
+    const{username, password} = req.body;      // Estrae username e password dal corpo della richiesta.
 
-exports.loginUser = async (req, res) => {
-    try {
-        const { username, password } = req.body || {};
-
-        if (!username || !password) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Username e password richiesti.'
-            });
-        }
-
-        if (username === 'admin' && password === '1234') {
-            return res.json({
-                ok: true,
-                message: 'Login effettuato con successo!'
-            });
-        }
-
-        return res.status(401).json({
-            ok: false,
-            message: 'Credenziali non valide.'
-        });
-    } catch (err) {
-        console.error('loginUser error:', err);
-        return res.status(500).json({
-            ok: false,
-            message: 'Errore nel server'
-        });
-    }
-};
-
-exports.signupUser = async (req, res) => {
-    try {
-        const { name, email, password } = req.body || {};
-
-        if (!name || !email || !password) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Nome, email e password richiesti.'
-            });
-        }
-
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Inserisci un indirizzo email valido.'
-            });
-        }
-
-        const alreadyExists = registeredUsers.some((user) => user.email.toLowerCase() === email.toLowerCase());
-        if (alreadyExists) {
-            return res.status(409).json({
-                ok: false,
-                message: 'Email già registrata.'
-            });
-        }
-
-        registeredUsers.push({ name, email, password });
-
-        return res.status(201).json({
-            ok: true,
-            message: `Registrazione completata per ${name}!`
-        });
-    } catch (err) {
-        console.error('signupUser error:', err);
-        return res.status(500).json({
-            ok: false,
-            message: 'Errore nel server'
-        });
-    }
-};
+    if(username === 'admin' && password === '1234'){ // Controlla se le credenziali sono corrette.
+        res.send('Login è avvenuto con successo!');  // Risponde con un messaggio di successo.
+    } else {                                     // Altrimenti le credenziali sono errate.
+        res.send('Login fallito. <br> Username inserito: ' + username + ' <br> Password inserita: ' + password + '.'); // Risponde con un messaggio di errore.
+    } // Chiude l'if-else. 
+}; // Chiude la funzione login.

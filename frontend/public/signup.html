@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>Registrati</title>
     <link rel="stylesheet" href="css/signup.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
-
 <body>
     <div id="navbar"></div>
+    <script>
+        fetch('/api/v1/components/navbar.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
 
     <main class="page-shell">
-        <div class="signup-box">
-            <h2>Create account</h2>
-            <form id="signup-form" action="/signup" method="POST">
-                <input id="name" type="text" name="name" placeholder="Full name" required>
-                <input id="email" type="email" name="email" placeholder="Email" required>
-                <input id="password" type="password" name="password" placeholder="Password" required>
-                <button type="submit">Register</button>
+        <section class="auth-card">
+            <span class="eyebrow">Registrazione</span>
+            <h1>Crea il tuo account</h1>
+            <form action="/signup" method="POST">
+                <label>
+                    <span>Username</span>
+                    <input type="text" name="username" placeholder="Scegli username" required>
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" name="password" placeholder="Scegli password" required>
+                </label>
+                <button type="submit">Registrati</button>
             </form>
-            <div id="signup-result" aria-live="polite"></div>
-        </div>
+        </section>
     </main>
 
     <div id="footer"></div>
-
-    <script src="js/common.js"></script>
-    <script src="js/signup.js"></script>
+    <script>
+        fetch('/api/v1/components/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
 </body>
-
 </html>

@@ -1,5 +1,9 @@
-const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-module.exports = {
-  WEATHER_API_URL,
+module.exports = { 
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    PORT: process.env.PORT, // ||3000 Default port if not specified in .env
 };
+
+
+
+ 

@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
-
 <body>
     <div id="navbar"></div>
+    <script>
+        fetch('/api/v1/components/navbar.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
 
     <main class="page-shell">
-        <div class="login-box">
-            <h2>Login</h2>
-            <form id="login-form" action="/login" method="POST">
-                <input id="username" type="text" name="username" placeholder="Username" required>
-                <input id="password" type="password" name="password" placeholder="Password" required>
+        <section class="auth-card">
+            <span class="eyebrow">Login</span>
+            <h1>Ben tornato</h1>
+            <form action="/login" method="POST">
+                <label>
+                    <span>Username</span>
+                    <input type="text" name="username" placeholder="Inserisci username" required>
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" name="password" placeholder="Inserisci password" required>
+                </label>
                 <button type="submit">Accedi</button>
             </form>
-            <div id="login-result" aria-live="polite"></div>
-        </div>
+        </section>
     </main>
 
     <div id="footer"></div>
-
-    <script src="js/common.js"></script>
-    <script src="js/login.js"></script>
+    <script>
+        fetch('/api/v1/components/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
 </body>
-
 </html>
