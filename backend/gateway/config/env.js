@@ -14,6 +14,7 @@ envCandidates.forEach((envFilePath) => {
 module.exports = {
     SERVICE_URL: process.env.SERVICE_URL || "http://localhost:3000",
     GATEWAY_PORT: parseInt(process.env.GATEWAY_PORT || "4000", 10),
+    WANTED_SERVICE_URL: process.env.WANTED_SERVICE_URL || "http://localhost:3002",
 };
 
-// In questo caso il file serve solo per gestire comodamente il numero di porta del gateway, fuori dal codice del server.
+// In questo file gestiamo le configurazioni dei microservizi collegati al gateway.

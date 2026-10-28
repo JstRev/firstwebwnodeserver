@@ -1,0 +1,85 @@
+/* Stili specifici per la scheda FBI del giorno */
+.fbi-shell {
+    padding: 40px 20px;
+}
+
+.fbi-box {
+    width: min(760px, 100%);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.fbi-box h1 {
+    margin-bottom: 12px;
+    color: #162033;
+}
+
+#fbi-result {
+    margin-top: 24px;
+    background: #ffffff;
+    border: 1px solid #dfeaff;
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+    text-align: center;
+}
+
+#fbi-result h2 {
+    font-size: 1.5rem;
+    color: #1e3a8a;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.fbi-image {
+    display: block;
+    max-width: 100%;
+    max-height: 420px;
+    margin: 18px auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    object-fit: contain;
+}
+
+.fbi-description {
+    margin: 16px 0;
+    color: #475569;
+    line-height: 1.6;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.fbi-box p {
+    color: #334155;
+    margin: 8px 0;
+}
+
+.fbi-reward {
+    font-weight: 700;
+    color: #047857;
+    background: #ecfdf5;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #a7f3d0;
+    margin: 14px 0 !important;
+}
+
+.fbi-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 16px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fbi-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+

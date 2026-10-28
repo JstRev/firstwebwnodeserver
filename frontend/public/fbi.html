@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda FBI - SkyFlow</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/weather.css">
+    <link rel="stylesheet" href="css/fbi.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <script>
+        fetch('/api/v1/components/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
+
+    <main class="page-shell weather-shell fbi-shell">
+        <section class="weather-box fbi-box">
+            <span class="eyebrow">FBI Wanted</span>
+            <h1>Scheda FBI del giorno</h1>
+            <p class="subtitle">Una persona ricercata o una segnalazione dall'elenco pubblico ufficiale dell'FBI.</p>
+            <div id="fbi-result" aria-live="polite">Caricamento in corso...</div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+    <script>
+        fetch('/api/v1/components/footer.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('footer').innerHTML = html);
+    </script>
+    <script src="js/fbi.js"></script>
+</body>
+</html>
+
