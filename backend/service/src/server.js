@@ -1,41 +1,48 @@
 const express = require("express");
-const path = require("path");
-const app = express();
 const bodyParser = require("body-parser");
 const { PORT } = require("../config/env");
+const paths = require("../config/paths");
+
+const pageRoutes = require("./routes/pageRoutes");
+const weatherRoutes = require("./routes/weatherRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+const app = express();
 const port = Number(PORT) || 3000;
 
+// Body parsing middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// Register application routes (both at root and /api/v1 for gateway compatibility)
+app.use("/", pageRoutes);
+app.use("/api/v1", pageRoutes);
 
-// il body parser serve per leggere i dati inviati dal form
-app.use(bodyParser.json());                    // Abilita la lettura del corpo in formato JSON.
-app.use(bodyParser.urlencoded({ extended: true })); // Abilita la lettura dei dati inviati dai form HTML.
+app.use("/", weatherRoutes);
+app.use("/api/v1", weatherRoutes);
 
-const pageRoutes = require("./route/pageroutes"); // Importa le routes delle pagine statiche.
-app.use("/", pageRoutes);    // Usa le routes definite in pageroutes.js per gestire le richieste alle pagine statiche.
-app.use("/api/v1", pageRoutes); // Supporta anche il prefisso API per il front-end diretto.
+app.use("/", authRoutes);
+app.use("/api/v1", authRoutes);
 
-const weatherRoutes = require("./route/weather"); // Importa le routes per le richieste meteo.
-app.use("/", weatherRoutes); // Usa le routes definite in weather.js per gestire le richieste meteo.
-app.use("/api/v1", weatherRoutes); // Supporta anche il prefisso API per le chiamate del client.
+// Static assets from frontend/public
+app.use("/", express.static(paths.PUBLIC));
+app.use("/api/v1", express.static(paths.PUBLIC));
 
-const authRoutes = require("./route/auth"); // Importa le routes per le richieste di autenticazione.
-app.use("/", authRoutes); // Usa le routes definite in auth.js per gestire le richieste di autenticazione.
-app.use("/api/v1", authRoutes); // Supporta anche il prefisso API di autenticazione.
+// 404 handler
+app.use((req, res, next) => {
+    if (req.accepts("html")) {
+        return res.status(404).sendFile(require("path").join(paths.PUBLIC, "index.html"));
+    }
+    res.status(404).json({ error: true, message: "Resource not found" });
+});
 
-const signinRoutes = require("./route/signin"); // Importa le routes per le richieste di registrazione.
-app.use("/", signinRoutes); // Usa le routes definite in signin.js per gestire le richieste di registrazione.
-app.use("/api/v1", signinRoutes); // Supporta anche il prefisso API di registrazione.
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error("[Service Error]", err);
+    res.status(500).json({ error: true, message: "Internal server error" });
+});
 
-const publicPath = path.join(__dirname, "../../../frontend/public");
-app.use("/", express.static(publicPath)); // Serve i file statici della cartella public.
-app.use("/api/v1", express.static(publicPath)); // Rende disponibili anche gli asset con prefisso /api/v1.
-
-
-
-
-//definizione dello stato visualizzabile da prompt
-app.listen(port, ()=> {                        // Avvia il server sulla porta definita.
-console.log("Server in ascolto alla porta " + port); // Scrive in console la porta di ascolto.
-console.log('accedi all indirizzo http://localhost:'+port) // Scrive in console l'indirizzo da aprire nel browser.
-}); // Chiude il metodo listen.
+app.listen(port, () => {
+    console.log(`[SkyFlow Service] Server active on port ${port}`);
+    console.log(`[SkyFlow Service] Direct access: http://localhost:${port}`);
+});

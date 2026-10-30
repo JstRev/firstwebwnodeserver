@@ -1,33 +1,40 @@
 @echo off
-title Installazione dipendenze progetto
+title Install SkyFlow Dependencies
 cd /d "%~dp0"
 
 echo.
 echo ===================================================
-echo INSTALLAZIONE GATEWAY (Node.js)
+echo 1. INSTALLING GATEWAY (Node.js)
 echo ===================================================
 cd /d "%~dp0backend\gateway"
 call npm install
 
 echo.
 echo ===================================================
-echo INSTALLAZIONE SERVICE (Node.js)
+echo 2. INSTALLING AUTH SERVICE (Node.js)
+echo ===================================================
+cd /d "%~dp0backend\auth-service"
+call npm install
+
+echo.
+echo ===================================================
+echo 3. INSTALLING MAIN SERVICE (Node.js)
 echo ===================================================
 cd /d "%~dp0backend\service"
 call npm install
 
 echo.
 echo ===================================================
-echo VERIFICA WANTED SERVICE (Python)
+echo 4. CHECKING WANTED SERVICE (Python)
 echo ===================================================
-echo Il servizio wanted_service e basato su Python e utilizza librerie standard.
-echo Non richiede pacchetti npm o dipendenze esterne pip.
+echo The wanted_service is based on Python standard library modules.
+echo No pip or external packages are required.
 
 cd /d "%~dp0"
 
 echo.
 echo ===================================================
-echo INSTALLAZIONE COMPLETATA
+echo INSTALLATION COMPLETE
 echo ===================================================
 echo.
 

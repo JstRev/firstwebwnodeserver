@@ -1,26 +1,39 @@
-const { getWeather } = require("../utils/apiclient");
-const { normalizeWeather } = require("../utils/normalizeWeather");
-const { validateCity } = require("../utils/validateCity");
-const { WEATHER_API_KEY } = require("../../config/env");
+const { fetchWeatherData } = require("../services/weatherService");
 const { logError } = require("../utils/logger");
 
 exports.weatherController = async (req, res) => {
-  const city = req.body.city;
+    const city = req.body.city || req.query.city;
 
-  if (!validateCity(city)) {
-    return res.json({ error: true, message: "Citta' non valida" });
-  }
-
-  try {
-    const data = await getWeather(city, WEATHER_API_KEY);
-
-    if (data.cod !== 200) {
-      return res.json({ error: true, message: "Citta' non trovata" });
+    if (!city) {
+        return res.status(400).json({
+            error: true,
+            success: false,
+            message: "City name is required."
+        });
     }
 
-    return res.json(normalizeWeather(data));
-  } catch (err) {
-    logError(err);
-    return res.json({ error: true, message: "Errore nel server" });
-  }
+    try {
+        const result = await fetchWeatherData(city);
+
+        if (!result.success) {
+            return res.status(result.status || 400).json({
+                error: true,
+                success: false,
+                message: result.message
+            });
+        }
+
+        return res.json({
+            error: false,
+            success: true,
+            ...result.data
+        });
+    } catch (err) {
+        logError(err);
+        return res.status(500).json({
+            error: true,
+            success: false,
+            message: "Internal server error occurred while retrieving weather data."
+        });
+    }
 };

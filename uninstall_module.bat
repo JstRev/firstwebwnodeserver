@@ -1,40 +1,51 @@
 @echo off
-title Rimozione dipendenze e cache
+title Clean SkyFlow Dependencies and Cache
 cd /d "%~dp0"
 
 echo.
 echo ===================================================
-echo RIMOZIONE GATEWAY (node_modules)
+echo REMOVING GATEWAY DEPENDENCIES
 echo ===================================================
 if exist "%~dp0backend\gateway\node_modules" (
     rmdir /s /q "%~dp0backend\gateway\node_modules"
-    echo node_modules di Gateway rimosso con successo.
+    echo Gateway node_modules removed.
 ) else (
-    echo Nessuna cartella node_modules trovata in Gateway.
+    echo No Gateway node_modules found.
 )
 
 echo.
 echo ===================================================
-echo RIMOZIONE SERVICE (node_modules)
+echo REMOVING AUTH SERVICE DEPENDENCIES
+echo ===================================================
+if exist "%~dp0backend\auth-service\node_modules" (
+    rmdir /s /q "%~dp0backend\auth-service\node_modules"
+    echo Auth Service node_modules removed.
+) else (
+    echo No Auth Service node_modules found.
+)
+
+echo.
+echo ===================================================
+echo REMOVING MAIN SERVICE DEPENDENCIES
 echo ===================================================
 if exist "%~dp0backend\service\node_modules" (
     rmdir /s /q "%~dp0backend\service\node_modules"
-    echo node_modules di Service rimosso con successo.
+    echo Main Service node_modules removed.
 ) else (
-    echo Nessuna cartella node_modules trovata in Service.
+    echo No Main Service node_modules found.
 )
 
 echo.
 echo ===================================================
-echo PULIZIA WANTED SERVICE (Cache Python)
+echo CLEANING WANTED SERVICE (Python Cache)
 echo ===================================================
 if exist "%~dp0backend\wanted_service\utils\__pycache__" (
     rmdir /s /q "%~dp0backend\wanted_service\utils\__pycache__"
-    echo Cache utils Python rimossa.
+    echo Python utils cache removed.
 )
 if exist "%~dp0backend\wanted_service\__pycache__" (
     rmdir /s /q "%~dp0backend\wanted_service\__pycache__"
-    echo Cache Python rimossa.
+    echo Python cache removed.
 )
 if exist "%~dp0backend\wanted_service\package-lock.json" (
     del /f /q "%~dp0backend\wanted_service\package-lock.json"
@@ -42,7 +53,7 @@ if exist "%~dp0backend\wanted_service\package-lock.json" (
 
 echo.
 echo ===================================================
-echo RIMOZIONE COMPLETATA
+echo CLEANUP COMPLETED
 echo ===================================================
 echo.
 

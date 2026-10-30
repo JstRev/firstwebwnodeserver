@@ -1,20 +1,14 @@
-const path = require("path"); // Importa il modulo path per gestire i percorsi dei file.
-
-// Definisce i percorsi dei file statici per le pagine HTML.
+const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const FRONTEND_PUBLIC = path.join(ROOT, "..", "..", "frontend", "public");
+const FRONTEND_PUBLIC = path.resolve(__dirname, "..", "..", "..", "frontend", "public");
 
-//PERCORSI PRINCIPALI:
-
-module.exports ={ 
-
-    ROOT: ROOT,
+module.exports = {
+    ROOT,
     SRC: path.join(ROOT, "src"),
-    // PUBLIC: path.join(ROOT, "public"),
     PUBLIC: FRONTEND_PUBLIC,
     CONTROLLERS: path.join(ROOT, "src", "controllers"),
-    ROUTES: path.join(ROOT, "src", "route"),
+    SERVICES: path.join(ROOT, "src", "services"),
+    ROUTES: path.join(ROOT, "src", "routes"),
     UTILS: path.join(ROOT, "src", "utils"),
-
-}
+};

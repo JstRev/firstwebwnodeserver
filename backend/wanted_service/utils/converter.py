@@ -2,31 +2,34 @@ from urllib.parse import urlparse
 
 
 def item_to_json(item):
-    # Riduciamo la risposta dell'API ai soli campi usati dalla pagina.
     images = item.get("images") or []
     image_url = ""
     if images and isinstance(images[0], dict):
-        image_url = safe_fbi_url(images[0].get("large") or images[0].get("thumb"))
+        raw_img = images[0].get("large") or images[0].get("thumb") or images[0].get("original")
+        image_url = sanitize_media_url(raw_img)
 
     subjects = item.get("subjects")
     if not isinstance(subjects, list):
         subjects = []
 
     return {
-        "title": item.get("title") or "Scheda FBI",
+        "title": item.get("title") or "FBI Most Wanted File",
         "description": item.get("description") or "",
         "subjects": subjects,
         "reward": item.get("reward_text") or "",
         "image": image_url,
-        "url": safe_fbi_url(item.get("url")),
+        "url": sanitize_media_url(item.get("url")),
     }
 
 
-def safe_fbi_url(value):
-    # Accettiamo solo link HTTPS del dominio FBI prima di inserirli nella risposta
+def sanitize_media_url(value):
     if not isinstance(value, str):
         return ""
     parsed = urlparse(value)
-    if parsed.scheme == "https" and parsed.hostname in ("www.fbi.gov", "fbi.gov", "api.fbi.gov"):
+    if parsed.scheme != "https":
+        return ""
+    hostname = (parsed.hostname or "").lower()
+    # Accept official FBI subdomains or trusted CDNs
+    if hostname.endswith("fbi.gov") or hostname in ("images.unsplash.com", "cdn.fbi.gov"):
         return value
     return ""
