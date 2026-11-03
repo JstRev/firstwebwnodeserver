@@ -1,9 +1,7 @@
-const env = require("../../config/env");
-
+/**
+ * Costanti globali di configurazione caricate dalle variabili d'ambiente.
+ */
 module.exports = {
-    DEFAULT_PORT: 3000,
-    DEFAULT_WEATHER_CITY: "Rome",
-    API_PREFIX: "/api/v1",
-    WEATHER_API_KEY: env.WEATHER_API_KEY,
-    PORT: env.PORT,
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    PORT: process.env.PORT || 3000
 };

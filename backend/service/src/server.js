@@ -1,48 +1,36 @@
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
-const { PORT } = require("../config/env");
-const paths = require("../config/paths");
 
-const pageRoutes = require("./routes/pageRoutes");
-const weatherRoutes = require("./routes/weatherRoutes");
-const authRoutes = require("./routes/authRoutes");
+// Caricamento variabili d'ambiente (.env nel backend/service)
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+require("dotenv").config();
+
+const { PORT } = require("./utils/constants");
+const port = PORT || 3000;
 
 const app = express();
-const port = Number(PORT) || 3000;
 
-// Body parsing middleware
+// Middleware di parsing: elabora richieste JSON e form URL-encoded (POST da form HTML)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Register application routes (both at root and /api/v1 for gateway compatibility)
-app.use("/", pageRoutes);
-app.use("/api/v1", pageRoutes);
+// Registrazione router applicativi
+const pageRoutes = require("./route/pageroutes");
+const weatherRoutes = require("./route/weather");
+const authRoutes = require("./route/auth");
+const signinRoutes = require("./route/signin");
 
-app.use("/", weatherRoutes);
-app.use("/api/v1", weatherRoutes);
+app.use("/", pageRoutes);    // Pagine HTML statiche (GET /, /about, /weather, etc.)
+app.use("/", weatherRoutes); // Endpoint meteo (POST /weather)
+app.use("/", authRoutes);    // Autenticazione (POST /login)
+app.use("/", signinRoutes);  // Registrazione utente (POST /signup)
 
-app.use("/", authRoutes);
-app.use("/api/v1", authRoutes);
+// Servizio file statici (HTML, CSS, JS, immagini da frontend/public)
+app.use(express.static(path.join(__dirname, "../../../frontend/public")));
 
-// Static assets from frontend/public
-app.use("/", express.static(paths.PUBLIC));
-app.use("/api/v1", express.static(paths.PUBLIC));
-
-// 404 handler
-app.use((req, res, next) => {
-    if (req.accepts("html")) {
-        return res.status(404).sendFile(require("path").join(paths.PUBLIC, "index.html"));
-    }
-    res.status(404).json({ error: true, message: "Resource not found" });
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-    console.error("[Service Error]", err);
-    res.status(500).json({ error: true, message: "Internal server error" });
-});
-
+// Avvio del server HTTP
 app.listen(port, () => {
-    console.log(`[SkyFlow Service] Server active on port ${port}`);
-    console.log(`[SkyFlow Service] Direct access: http://localhost:${port}`);
+    console.log("Server in ascolto alla porta " + port);
+    console.log("Accedi all'indirizzo http://localhost:" + port);
 });

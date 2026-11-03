@@ -1,18 +1,26 @@
 const path = require("path");
-const dotenv = require("dotenv");
 
-const envCandidates = [
-    path.resolve(__dirname, "../.env"),
-    path.resolve(__dirname, "../../.env"),
-    path.resolve(process.cwd(), ".env"),
+// Carica le variabili dal file .env nella radice del service
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+require("dotenv").config();
+
+/**
+ * Validazione delle variabili d'ambiente obbligatorie all'avvio.
+ * Se una variabile manca, il processo termina immediatamente con codice di errore 1.
+ */
+const requiredEnvVars = [
+    "WEATHER_API_KEY",
+    "PORT"
 ];
 
-envCandidates.forEach((envFilePath) => {
-    dotenv.config({ path: envFilePath });
+requiredEnvVars.forEach(key => {
+    if (!process.env[key]) {
+        console.error(`Errore critico: la variabile d'ambiente ${key} non è definita.`);
+        process.exit(1);
+    }
 });
 
 module.exports = {
-    PORT: Number(process.env.PORT) || 3000,
-    WEATHER_API_KEY: process.env.WEATHER_API_KEY || "",
-    NODE_ENV: process.env.NODE_ENV || "development",
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
+    PORT: process.env.PORT
 };

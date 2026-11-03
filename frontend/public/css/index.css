@@ -1,164 +1,36 @@
+/* ===== Reset CSS globale e box-sizing ===== */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* ===== Layout base con Flexbox a colonna a tutta altezza ===== */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #eef5ff 0%, #dfeeff 100%);
-    color: #1f2937;
+    background: linear-gradient(135deg, #e3e9f0, #cfd9e8);
     min-height: 100vh;
-}
-
-img {
-    max-width: 100%;
-    display: block;
-}
-
-.page-shell {
-    min-height: calc(100vh - 120px);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
+    flex-direction: column;
 }
 
-.hero {
-    width: min(1100px, 100%);
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(145, 169, 255, 0.25);
-    border-radius: 28px;
-    box-shadow: 0 18px 45px rgba(34, 72, 163, 0.12);
-    display: grid;
-    grid-template-columns: 1.5fr 0.9fr;
-    gap: 32px;
-    padding: 40px;
-    backdrop-filter: blur(4px);
-}
-
-.hero-copy {
+/* ===== Contenitore centrale Home ===== */
+.container {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.eyebrow {
-    display: inline-block;
-    width: fit-content;
-    background: #e6f0ff;
-    color: #214fc7;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 7px 12px;
-    margin-bottom: 18px;
-}
-
-.hero h1,
-.content-card h1,
-.auth-card h1,
-.weather-box h1 {
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    line-height: 1.1;
-    margin-bottom: 16px;
-    color: #162033;
-}
-
-.hero-copy p,
-.content-card p,
-.auth-card p,
-.weather-box p {
-    font-size: 1.05rem;
-    color: #475569;
-    line-height: 1.7;
-}
-
-.hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 28px;
-}
-
-.btn {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    padding: 14px 20px;
-    font-weight: 700;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 20px;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
+.container h1 {
+    font-size: 40px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.btn.primary {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25);
-}
-
-.btn.secondary {
-    background: #f3f7ff;
-    color: #1e3a8a;
-    border: 1px solid #dfeaff;
-}
-
-.hero-card {
-    background: linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%);
-    border: 1px solid #dfeaff;
-    border-radius: 22px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.hero-card h2 {
-    font-size: 1.35rem;
-    margin-bottom: 18px;
-    color: #162033;
-}
-
-.hero-card ul {
-    list-style: none;
-    display: grid;
-    gap: 12px;
-}
-
-.hero-card li {
-    color: #334155;
-    font-weight: 600;
-    padding-left: 26px;
-    position: relative;
-}
-
-.hero-card li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #2563eb;
-    font-size: 1.7rem;
-    line-height: 1;
-}
-
-@media (max-width: 768px) {
-    .hero {
-        grid-template-columns: 1fr;
-        padding: 28px 22px;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-    }
+.container p {
+    font-size: 18px;
+    color: #555;
 }

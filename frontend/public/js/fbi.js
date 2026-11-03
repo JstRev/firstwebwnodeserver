@@ -1,22 +1,20 @@
-// Chiede al servizio wanted la scheda del giorno e la mostra nella pagina.
+/**
+ * Logica client-side per la pagina FBI (FBI.html).
+ * - Richiede la scheda del ricercato del giorno al Gateway (/api/v1/wanted/api/wanted/today).
+ * - Costruisce dinamicamente gli elementi HTML (titolo, foto, descrizione, categoria, link)
+ *   utilizzando textContent per prevenire vulnerabilità XSS.
+ */
 async function loadWantedPerson() {
     const result = document.getElementById("fbi-result");
 
     try {
-        // Se la pagina è aperta direttamente sulla porta 3002 usiamo /api/wanted/today,
-        // altrimenti tramite gateway (porta 4000) usiamo il prefisso /api/v1/wanted/api/wanted/today.
-        const endpoint = (window.location.port === "3002" || !window.location.pathname.includes("/api/v1"))
-            ? "/api/wanted/today"
-            : "/api/v1/wanted/api/wanted/today";
-
-        const response = await fetch(endpoint);
+        const response = await fetch("/api/v1/wanted/api/wanted/today");
         const person = await response.json();
 
         if (!response.ok) {
             throw new Error(person.error || "Servizio non disponibile");
         }
 
-        // Creiamo gli elementi in modo sicuro evitando innerHTML con contenuto non sanitizzato
         const title = document.createElement("h2");
         title.textContent = person.title;
         result.replaceChildren(title);
@@ -45,7 +43,6 @@ async function loadWantedPerson() {
         if (person.reward) {
             const reward = document.createElement("p");
             reward.textContent = person.reward;
-            reward.className = "fbi-reward";
             result.append(reward);
         }
 
@@ -55,7 +52,6 @@ async function loadWantedPerson() {
             link.textContent = "Apri la scheda ufficiale FBI";
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.className = "fbi-link";
             result.append(link);
         }
     } catch (error) {
@@ -63,5 +59,4 @@ async function loadWantedPerson() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadWantedPerson);
-
+loadWantedPerson();

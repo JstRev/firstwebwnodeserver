@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
-    <link rel="stylesheet" href="css/contact.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="/api/v1/css/contact.css">
+    <link rel="stylesheet" href="/api/v1/css/navbar.css">
+    <link rel="stylesheet" href="/api/v1/css/footer.css">
 </head>
+
 <body>
-    <div id="navbar"></div>
-    <script>
-        fetch('/api/v1/components/navbar.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
 
-    <main class="page-shell">
-        <section class="content-card contact-card">
-            <span class="eyebrow">Contatti</span>
-            <h1>Parliamone.</h1>
-            <p>Hai bisogno di aiuto o vuoi proporre un miglioramento?</p>
+    <!-- Contenitore Navbar condivisa -->
+    <div id="navbar">
+        <script>
+            fetch('/api/v1/components/navbar.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('navbar').innerHTML = html);
+        </script>
+    </div>
 
-            <div class="contact-list">
-                <div class="contact-item">
+    <!-- Pagina contatti e recapiti -->
+    <main class="contact-wrapper">
+        <div class="contact-box">
+            <h2>Contact</h2>
+            <p>Hai domande o suggerimenti? Ecco come puoi contattarci.</p>
+
+            <ul class="contact-list">
+                <li>
                     <strong>Email</strong>
-                    <span>hello@skyflow.app</span>
-                </div>
-                <div class="contact-item">
+                    <span>info@myapp.example</span>
+                </li>
+                <li>
                     <strong>Telefono</strong>
-                    <span>+39 333 123 4567</span>
-                </div>
-                <div class="contact-item">
-                    <strong>Location</strong>
-                    <span>Roma, Italia</span>
-                </div>
-            </div>
-        </section>
+                    <span>+39 123 456 7890</span>
+                </li>
+                <li>
+                    <strong>Indirizzo</strong>
+                    <span>Via Roma 1, 00100 Roma, Italia</span>
+                </li>
+            </ul>
+        </div>
     </main>
 
-    <div id="footer"></div>
-    <script>
-        fetch('/api/v1/components/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer').innerHTML = html);
-    </script>
+    <!-- Contenitore Footer condiviso -->
+    <div id="footer">
+        <script>
+            fetch('/api/v1/components/footer.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('footer').innerHTML = html);
+        </script>
+    </div>
+
 </body>
+
 </html>

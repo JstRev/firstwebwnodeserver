@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
-    <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="/api/v1/css/about.css">
+    <link rel="stylesheet" href="/api/v1/css/navbar.css">
+    <link rel="stylesheet" href="/api/v1/css/footer.css">
 </head>
+
 <body>
-    <div id="navbar"></div>
-    <script>
-        fetch('/api/v1/components/navbar.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
 
-    <main class="page-shell">
-        <section class="content-card">
-            <span class="eyebrow">About</span>
-            <h1>Una base semplice per mostrare le tue pagine.</h1>
-            <p>Questa app mette insieme una navigazione pulita, forme di accesso e un piccolo servizio meteo.</p>
+    <!-- Contenitore Navbar condivisa -->
+    <div id="navbar">
+        <script>
+            fetch('/api/v1/components/navbar.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('navbar').innerHTML = html);
+        </script>
+    </div>
 
-            <div class="feature-grid">
-                <article>
-                    <h3>Design</h3>
-                    <p>Layout chiaro, colori leggeri e componenti facili da leggere.</p>
-                </article>
-                <article>
-                    <h3>UX</h3>
-                    <p>Pagine ordinate e navigazione diretta senza distrazioni.</p>
-                </article>
-                <article>
-                    <h3>Funzionalità</h3>
-                    <p>Login, registrazione e ricerca meteo in un unico flusso.</p>
-                </article>
-            </div>
-        </section>
+    <!-- Pagina descrittiva dell'applicazione -->
+    <main class="about-wrapper">
+        <div class="about-box">
+            <h2>About My App</h2>
+            <p>My App è una semplice applicazione web che dimostra l'uso di HTML, CSS e JavaScript per creare pagine moderne e responsive.</p>
+
+            <h3>Cosa offriamo</h3>
+            <ul class="feature-list">
+                <li>Interfaccia pulita e responsive</li>
+                <li>Navigazione semplice tra le pagine</li>
+                <li>Form di login e registrazione</li>
+                <li>Integrazione con API meteo</li>
+            </ul>
+        </div>
     </main>
 
-    <div id="footer"></div>
-    <script>
-        fetch('/api/v1/components/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer').innerHTML = html);
-    </script>
+    <!-- Contenitore Footer condiviso -->
+    <div id="footer">
+        <script>
+            fetch('/api/v1/components/footer.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('footer').innerHTML = html);
+        </script>
+    </div>
+
 </body>
+
 </html>

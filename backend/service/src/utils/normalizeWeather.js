@@ -1,21 +1,17 @@
+/**
+ * Estrae e normalizza i campi essenziali dalla risposta grezza di OpenWeatherMap.
+ * Filtra dati complessi o superflui, restituendo un oggetto snello per il frontend.
+ * @param {object} data - Payload JSON grezzo restituito dall'API OpenWeatherMap
+ * @returns {object} - Oggetto con dati meteo pronti per il rendering
+ */
 function normalizeWeather(data) {
-    const weatherItem = (data.weather && data.weather[0]) || {};
-    const main = data.main || {};
-    const wind = data.wind || {};
-    const sys = data.sys || {};
-
     return {
-        city: data.name || "Unknown Location",
-        country: sys.country || "",
-        temperature: Math.round(main.temp ?? 0),
-        feelsLike: Math.round(main.feels_like ?? main.temp ?? 0),
-        humidity: main.humidity ?? 0,
-        pressure: main.pressure ?? 1013,
-        windSpeed: Number(wind.speed ?? 0),
-        mainCondition: weatherItem.main || "Clear",
-        description: weatherItem.description || "clear sky",
-        icon: weatherItem.icon || "01d",
-        isDemo: false
+        city: data.name,
+        temperature: data.main.temp,
+        humidity: data.main.humidity,
+        windSpeed: data.wind.speed,
+        description: data.weather[0].description,
+        icon: data.weather[0].icon
     };
 }
 

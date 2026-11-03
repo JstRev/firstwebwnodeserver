@@ -1,60 +1,50 @@
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const config = require("../config/env");
+
 const app = express();
 
-// Enable trust proxy
-app.set("trust proxy", 1);
+/**
+ * API GATEWAY & REVERSE PROXY
+ *
+ * Ruoli e pattern implementati:
+ * 1. API Versioning: espone tutte le risorse sotto il prefisso comune /api/v1/.
+ * 2. Endpoint Hiding: maschera gli indirizzi e le porte interne dei singoli microservizi.
+ *    Il client contatta solo il gateway (es. http://localhost:4000/api/v1/weather)
+ *    e il proxy riscrive l'URL inoltrando la richiesta al service (es. http://localhost:3000/weather).
+ * 3. Routing verso i microservizi:
+ *    - /api/v1/auth   -> Auth Service (porta 3001)
+ *    - /api/v1/wanted -> Wanted Service FBI Python (porta 3002)
+ *    - /api/v1        -> Main Service Node/Express (porta 3000)
+ */
 
-// 1. Proxy to Auth Service (Node.js on port 3001)
-app.use(
-    "/api/v1/auth",
-    createProxyMiddleware({
-        target: config.AUTH_SERVICE_URL,
-        changeOrigin: true,
-        pathRewrite: {
-            "^/api/v1/auth": ""
-        }
-    })
-);
+// Proxy verso Auth Service (autenticazione / login Google)
+app.use("/api/v1/auth", createProxyMiddleware({
+  target: config.AUTH_SERVICE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    "^/api/v1/auth": ""
+  }
+}));
 
-// 2. Proxy to Wanted Service (Python on port 3002)
-app.use(
-    "/api/v1/wanted",
-    createProxyMiddleware({
-        target: config.WANTED_SERVICE_URL,
-        changeOrigin: true,
-        pathRewrite: {
-            "^/api/v1/wanted": ""
-        }
-    })
-);
+// Proxy verso Wanted Service (scheda giornaliera FBI in Python)
+app.use("/api/v1/wanted", createProxyMiddleware({
+  target: config.WANTED_SERVICE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    "^/api/v1/wanted": ""
+  }
+}));
 
-// 3. Proxy to Main Service (Node.js on port 3000) with /api/v1 prefix
-app.use(
-    "/api/v1",
-    createProxyMiddleware({
-        target: config.SERVICE_URL,
-        changeOrigin: true,
-        pathRewrite: {
-            "^/api/v1": ""
-        }
-    })
-);
-
-// 4. Fallback root proxy to Main Service
-app.use(
-    "/",
-    createProxyMiddleware({
-        target: config.SERVICE_URL,
-        changeOrigin: true
-    })
-);
+// Proxy predefinito verso il Main Service (pagine HTML statiche, meteo, form)
+app.use("/api/v1", createProxyMiddleware({
+  target: config.SERVICE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    "^/api/v1": ""
+  }
+}));
 
 app.listen(config.GATEWAY_PORT, () => {
-    console.log(`[SkyFlow Gateway] Unified Gateway active on http://localhost:${config.GATEWAY_PORT}/api/v1/`);
-    console.log(`[SkyFlow Gateway] Routing to:`);
-    console.log(`  - Main Service:   ${config.SERVICE_URL}`);
-    console.log(`  - Auth Service:   ${config.AUTH_SERVICE_URL}`);
-    console.log(`  - Wanted Service: ${config.WANTED_SERVICE_URL}`);
+  console.log(`Gateway attivo su http://localhost:${config.GATEWAY_PORT}/api/v1`);
 });

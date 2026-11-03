@@ -1,42 +1,51 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/weather.css">
+    <title>Weather API</title>
+    <link rel="stylesheet" href="/api/v1/css/navbar.css">
+    <link rel="stylesheet" href="/api/v1/css/footer.css">
+    <link rel="stylesheet" href="/api/v1/css/weather.css">
 </head>
+
 <body>
-    <div id="navbar"></div>
-    <script>
-        fetch('/api/v1/components/navbar.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
 
-    <main class="page-shell weather-shell">
-        <section class="weather-box">
-            <span class="eyebrow">Weather</span>
-            <h1>Controlla il meteo</h1>
-            <p class="subtitle">Inserisci il nome di una città per vedere le condizioni attuali.</p>
+    <!-- Contenitore Navbar condivisa -->
+    <div id="navbar">
+        <script>
+            fetch("/api/v1/components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script>
+    </div>
 
-            <form id="weather-form" action="/weather" method="POST">
+    <!-- Sezione Meteo: form di ricerca città e box per visualizzare i risultati dinamici -->
+    <div class="weather-wrapper">
+        <div class="weather-box">
+            <h2>Weather API</h2>
+            <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
+
+            <form id="weather-form">
                 <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
-                <button type="submit">Cerca</button>
+                <button type="submit">Invia</button>
             </form>
-        </section>
+        </div>
 
-        <section class="weather-box result-box" id="weather-result"></section>
-    </main>
+        <div class="weather-box" id="weather-result"></div>
+    </div>
 
-    <div id="footer"></div>
-    <script>
-        fetch('/api/v1/components/footer.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('footer').innerHTML = html);
-    </script>
-    <script src="/js/weather.js"></script>
+    <!-- Contenitore Footer condiviso -->
+    <div id="footer">
+        <script>
+            fetch("/api/v1/components/footer.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("footer").innerHTML = html);
+        </script>
+    </div>
+
+    <script src="/api/v1/js/weather.js"></script>
 </body>
+
 </html>

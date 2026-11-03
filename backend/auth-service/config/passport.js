@@ -1,49 +1,50 @@
+require("dotenv").config(); // Ensure env vars are loaded if passport is required early
+
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const config = require("./env");
 
+// Guard: fail early with a clear message if credentials are missing
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    throw new Error(
+        "Missing Google OAuth credentials. " +
+        "Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your .env file."
+    );
+}
+
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:3001/google/callback",
+        },
+
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                // Build a minimal user object from the Google profile
+                const user = {
+                    googleId: profile.id,
+                    displayName: profile.displayName,
+                    email: profile.emails?.[0]?.value,
+                };
+
+                return done(null, user);
+
+            } catch (err) {
+                return done(err, null);
+            }
+        }
+    )
+);
+
+// Serialize the user into the session (store entire user object)
 passport.serializeUser((user, done) => {
     done(null, user);
 });
 
-passport.deserializeUser((obj, done) => {
-    done(null, obj);
+// Deserialize the user from the session
+passport.deserializeUser((user, done) => {
+    done(null, user);
 });
 
-const isConfigured = Boolean(
-    config.GOOGLE_CLIENT_ID &&
-    config.GOOGLE_CLIENT_SECRET &&
-    !config.GOOGLE_CLIENT_ID.includes("placeholder")
-);
-
-if (isConfigured) {
-    passport.use(
-        new GoogleStrategy(
-            {
-                clientID: config.GOOGLE_CLIENT_ID,
-                clientSecret: config.GOOGLE_CLIENT_SECRET,
-                callbackURL: config.GOOGLE_CALLBACK_URL,
-                proxy: true
-            },
-            (accessToken, refreshToken, profile, done) => {
-                const user = {
-                    id: profile.id,
-                    displayName: profile.displayName || "Google User",
-                    email: profile.emails && profile.emails[0] ? profile.emails[0].value : "",
-                    avatar: profile.photos && profile.photos[0] ? profile.photos[0].value : "",
-                    provider: "google",
-                    lastLogin: new Date().toISOString()
-                };
-                return done(null, user);
-            }
-        )
-    );
-    console.log("[Auth Service] Google OAuth Strategy registered successfully.");
-} else {
-    console.warn("[Auth Service] Warning: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not configured. Google Sign-In will operate in mock mode.");
-}
-
-module.exports = {
-    passport,
-    isGoogleConfigured: isConfigured
-};
+module.exports = passport;

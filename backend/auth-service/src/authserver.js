@@ -1,50 +1,33 @@
-const express = require("express");
-const session = require("express-session");
-const { PORT, SESSION_SECRET } = require("../config/env");
-const { passport } = require("../config/passport");
-const authRoutes = require("./routes/authRoutes");
+// Load environment variables from .env file
+require("dotenv").config();
 
+// Express framework and middleware imports
+const express = require("express"); // Express application framework
+const session = require("express-session"); // Session management middleware
+const passport = require("../config/passport"); // Passport authentication configuration
+const env = require("../config/env"); // Environment variables (e.g., ports)
+const googleAuthRoutes = require("./routes/auth_routes"); // Routes for Google OAuth flow
+
+// Initialize Express app
 const app = express();
 
-// Trust proxy header from Gateway
-app.set("trust proxy", 1);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Configure session
+// Configure session handling
 app.use(
     session({
-        name: "skyflow.sid",
-        secret: SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            httpOnly: true,
-            secure: false, // Set to true if running on HTTPS
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        }
+        secret: "super-secret-key", // Secret used to sign the session ID cookie
+        resave: false, // Do not resave session if unchanged
+        saveUninitialized: false, // Do not create session until something stored
     })
 );
 
-// Passport middleware
+// Initialize Passport authentication middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Mount authentication routes
-app.use("/", authRoutes);
-app.use("/auth", authRoutes);
+// Mount authentication routes at the root path
+app.use("/", googleAuthRoutes);
 
-// Health check
-app.get("/hello", (req, res) => {
-    res.json({
-        service: "auth-service",
-        status: "active",
-        timestamp: new Date().toISOString()
-    });
-});
-
-app.listen(PORT, () => {
-    console.log(`[SkyFlow Auth Service] Active on port ${PORT}`);
-    console.log(`[SkyFlow Auth Service] Diagnostic endpoint: http://localhost:${PORT}/hello`);
+// Start the authentication server listening on configured port
+app.listen(env.PORT, () => {
+    console.log(`Auth Server avviato sulla porta ${env.PORT}`);
 });

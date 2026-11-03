@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="/api/v1/css/login.css">
+    <link rel="stylesheet" href="/api/v1/css/navbar.css">
+    <link rel="stylesheet" href="/api/v1/css/footer.css">
 </head>
+
 <body>
-    <div id="navbar"></div>
-    <script>
-        fetch('/api/v1/components/navbar.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
 
-    <main class="page-shell">
-        <section class="auth-card">
-            <span class="eyebrow">Login</span>
-            <h1>Ben tornato</h1>
-            <form action="/login" method="POST">
-                <label>
-                    <span>Username</span>
-                    <input type="text" name="username" placeholder="Inserisci username" required>
-                </label>
-                <label>
-                    <span>Password</span>
-                    <input type="password" name="password" placeholder="Inserisci password" required>
-                </label>
-                <button type="submit">Accedi</button>
-            </form>
-        </section>
-    </main>
+    <!-- Contenitore Navbar condivisa -->
+    <div id="navbar">
+        <script>
+            fetch('/api/v1/components/navbar.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('navbar').innerHTML = html);
+        </script>
+    </div>
 
-    <div id="footer"></div>
-    <script>
-        fetch('/api/v1/components/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer').innerHTML = html);
-    </script>
+    <!-- Login con Google (OAuth) -->
+    <div class="login-wrapper">
+        <div class="login-box">
+            <h2>Login</h2>
+            <a href="/api/v1/auth/google" class="btn-google">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo">
+                Accedi con Google
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenitore Footer condiviso -->
+    <div id="footer">
+        <script>
+            fetch('/api/v1/components/footer.html')
+                .then(response => response.text())
+                .then(html => document.getElementById('footer').innerHTML = html);
+        </script>
+    </div>
+
 </body>
+
 </html>
