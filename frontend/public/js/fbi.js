@@ -1,8 +1,8 @@
 /**
- * Logica client-side per la pagina FBI (FBI.html).
- * - Richiede la scheda del ricercato del giorno al Gateway (/api/v1/wanted/api/wanted/today).
- * - Costruisce dinamicamente gli elementi HTML (titolo, foto, descrizione, categoria, link)
- *   utilizzando textContent per prevenire vulnerabilità XSS.
+ * Client-side logic for the FBI page (FBI.html).
+ * - Requests the daily wanted notice from the Gateway (/api/v1/wanted/api/wanted/today).
+ * - Builds dynamic HTML elements (title, image, description, category, link)
+ *   using textContent to prevent XSS vulnerabilities.
  */
 async function loadWantedPerson() {
     const result = document.getElementById("fbi-result");
@@ -12,7 +12,7 @@ async function loadWantedPerson() {
         const person = await response.json();
 
         if (!response.ok) {
-            throw new Error(person.error || "Servizio non disponibile");
+            throw new Error(person.error || "Service unavailable");
         }
 
         const title = document.createElement("h2");
@@ -36,7 +36,7 @@ async function loadWantedPerson() {
 
         if (Array.isArray(person.subjects) && person.subjects.length > 0) {
             const subjects = document.createElement("p");
-            subjects.textContent = `Categoria: ${person.subjects.join(", ")}`;
+            subjects.textContent = `Category: ${person.subjects.join(", ")}`;
             result.append(subjects);
         }
 
@@ -49,13 +49,13 @@ async function loadWantedPerson() {
         if (person.url) {
             const link = document.createElement("a");
             link.href = person.url;
-            link.textContent = "Apri la scheda ufficiale FBI";
+            link.textContent = "Open the official FBI profile";
             link.target = "_blank";
             link.rel = "noopener noreferrer";
             result.append(link);
         }
     } catch (error) {
-        result.textContent = error.message || "Non è stato possibile caricare la scheda FBI.";
+        result.textContent = error.message || "It was not possible to load the FBI profile.";
     }
 }
 

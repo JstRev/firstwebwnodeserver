@@ -1,20 +1,34 @@
-/* ===== Reset e box model ===== */
+:root {
+    --bg-1: #f4f7ff;
+    --bg-2: #edf7ff;
+    --panel: rgba(255, 255, 255, 0.86);
+    --primary: #6d5efc;
+    --primary-dark: #4f46e5;
+    --secondary: #66d9ff;
+    --text: #18212f;
+    --muted: #5f6f82;
+    --border: rgba(148, 163, 184, 0.22);
+    --shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ===== Layout a tutta altezza ===== */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e3e9f0, #cfd9e8);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(109, 94, 252, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(102, 217, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: var(--text);
 }
 
-/* ===== Contenitore centrale con disposizione verticale delle card ===== */
 .weather-wrapper {
     flex: 1;
     display: flex;
@@ -22,74 +36,80 @@ body {
     justify-content: center;
     align-items: center;
     gap: 20px;
+    padding: 40px 20px;
 }
 
-/* ===== Card con modulo o risultati meteo ===== */
 .weather-box {
-    background: #ffffff;
-    padding: 30px 35px;
-    border-radius: 12px;
-    width: 380px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+    padding: 30px 28px;
+    border-radius: 22px;
+    width: min(100%, 420px);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.4s ease;
     text-align: center;
 }
 
-.weather-box h2 {
+.weather-box h2,
+.fbi-box h1 {
     margin-bottom: 15px;
-    color: #333;
-    font-weight: 600;
+    color: var(--text);
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
 }
 
 .subtitle {
-    margin-bottom: 25px;
-    color: #555;
-    font-size: 16px;
+    margin-bottom: 24px;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
 }
 
-/* ===== Campo di testo input città ===== */
 .weather-box input {
     width: 100%;
-    padding: 12px;
+    padding: 13px 14px;
     margin-bottom: 18px;
-    border: 2px solid #d0d0d0;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: border-color 0.2s;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 12px;
+    background: rgba(248, 250, 255, 0.9);
+    font-size: 0.98rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .weather-box input:focus {
-    border-color: #0078ff;
+    border-color: rgba(109, 94, 252, 0.7);
+    box-shadow: 0 0 0 4px rgba(109, 94, 252, 0.08);
     outline: none;
 }
 
-/* ===== Bottone di invio ricerca ===== */
 .weather-box button {
     width: 100%;
-    padding: 12px;
-    background: #0078ff;
+    padding: 13px 16px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.25s, transform 0.1s;
+    box-shadow: 0 12px 24px rgba(109, 94, 252, 0.2);
+    transition: transform 0.2s ease;
 }
 
 .weather-box button:hover {
-    background: #005fcc;
+    transform: translateY(-1px);
 }
 
 .weather-box button:active {
-    transform: scale(0.98);
+    transform: scale(0.99);
 }
 
-/* Box risultato: nascosto fino alla ricezione dei dati dal server */
 #weather-result {
     display: none;
 }
 
-/* ===== Animazione di entrata dal basso ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;

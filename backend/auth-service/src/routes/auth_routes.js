@@ -12,6 +12,8 @@ const router = express.Router();
  * - GET /logout:                 Destroys the session and logs the user out
  */
 
+const HOME_URL = "http://localhost:4000/api/v1/";
+
 // Redirect /login to Google OAuth
 router.get("/login", (req, res) => {
     res.redirect("/google");
@@ -19,15 +21,24 @@ router.get("/login", (req, res) => {
 
 // Initiate Google OAuth flow (requests profile and email scopes)
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // Handle Google OAuth callback
+const googleCallbackHandler = (req, res) => {
+    const userName = req.user?.displayName || req.user?.email || "user";
+    res.redirect(`${HOME_URL}?welcome=${encodeURIComponent(userName)}`);
+};
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google", { failureRedirect: "http://localhost:4000/api/v1/login" }),
+    googleCallbackHandler
+);
+
 router.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
-        // Successful authentication – redirect to home or dashboard
-        res.redirect("/");
-    }
+    passport.authenticate("google", { failureRedirect: "http://localhost:4000/api/v1/login" }),
+    googleCallbackHandler
 );
 
 // Validate whether the current session is authenticated

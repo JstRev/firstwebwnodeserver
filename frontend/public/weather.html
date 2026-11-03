@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Contenitore Navbar condivisa -->
     <div id="navbar">
         <script>
             fetch("/api/v1/components/navbar.html")
@@ -21,22 +20,20 @@
         </script>
     </div>
 
-    <!-- Sezione Meteo: form di ricerca città e box per visualizzare i risultati dinamici -->
     <div class="weather-wrapper">
         <div class="weather-box">
             <h2>Weather API</h2>
-            <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
+            <p class="subtitle">Enter a city name to check the current weather conditions.</p>
 
             <form id="weather-form">
-                <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
-                <button type="submit">Invia</button>
+                <input type="text" id="city-input" name="city" placeholder="City name" required>
+                <button type="submit">Search</button>
             </form>
         </div>
 
         <div class="weather-box" id="weather-result"></div>
     </div>
 
-    <!-- Contenitore Footer condiviso -->
     <div id="footer">
         <script>
             fetch("/api/v1/components/footer.html")

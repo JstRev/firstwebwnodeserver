@@ -1,83 +1,97 @@
-/* ===== Reset e box model ===== */
+:root {
+    --bg-1: #f4f7ff;
+    --bg-2: #edf7ff;
+    --panel: rgba(255, 255, 255, 0.85);
+    --primary: #6d5efc;
+    --secondary: #66d9ff;
+    --text: #18212f;
+    --muted: #5f6f82;
+    --border: rgba(148, 163, 184, 0.22);
+    --shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ===== Layout a tutta altezza ===== */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e3e9f0, #cfd9e8);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(109, 94, 252, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(102, 217, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: var(--text);
 }
 
-/* ===== Contenitore centrale della sezione Contact ===== */
 .contact-wrapper {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
-/* ===== Card contatti ===== */
 .contact-box {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+    padding: 38px 36px;
+    border-radius: 22px;
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    max-width: 560px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.4s ease;
 }
 
 .contact-box h2 {
     text-align: center;
-    margin-bottom: 15px;
-    color: #333;
-    font-weight: 600;
+    margin-bottom: 14px;
+    color: var(--text);
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 800;
 }
 
 .contact-box > p {
     text-align: center;
-    color: #555;
-    margin-bottom: 25px;
+    color: var(--muted);
+    margin-bottom: 26px;
+    line-height: 1.7;
 }
 
-/* ===== Lista contatti con etichette evidenziate ===== */
 .contact-list {
     list-style: none;
     padding: 0;
+    display: grid;
+    gap: 14px;
 }
 
 .contact-list li {
     display: flex;
     flex-direction: column;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.contact-list li:last-child {
-    border-bottom: none;
+    padding: 16px 18px;
+    border: 1px solid rgba(109, 94, 252, 0.1);
+    background: rgba(109, 94, 252, 0.04);
+    border-radius: 14px;
 }
 
 .contact-list strong {
-    color: #0078ff;
-    font-size: 14px;
+    color: var(--primary);
+    font-size: 0.74rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 5px;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
 }
 
 .contact-list span {
-    color: #555;
-    font-size: 16px;
+    color: var(--text);
+    font-size: 1rem;
 }
 
-/* ===== Animazione di comparsa ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -89,9 +103,8 @@ body {
     }
 }
 
-/* ===== Adattamento per dispositivi mobili ===== */
 @media (max-width: 600px) {
     .contact-box {
-        padding: 25px;
+        padding: 26px 22px;
     }
 }

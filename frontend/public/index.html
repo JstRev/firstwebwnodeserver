@@ -24,8 +24,37 @@
     <!-- Contenitore principale della Home page -->
     <div class="container">
         <h1>Welcome to My App</h1>
-        <p>This is the home page of your application.</p>
+        <p id="welcome-message">This is the home page of your application.</p>
     </div>
+
+    <script>
+        async function loadUser() {
+            try {
+                const response = await fetch('/api/v1/auth/validate');
+                const data = await response.json();
+
+                if (data && data.authenticated && data.user) {
+                    const name = data.user.displayName || data.user.email || 'user';
+                    const welcome = new URLSearchParams(window.location.search).get('welcome') || name;
+                    const navbarName = document.getElementById('navbar-user-name');
+                    if (navbarName) {
+                        navbarName.textContent = `Welcome ${welcome}`;
+                    }
+                    document.getElementById('welcome-message').textContent = `You are logged in as ${name}`;
+                    return;
+                }
+            } catch (error) {
+                console.error('Error while fetching the authenticated user:', error);
+            }
+
+            const navbarName = document.getElementById('navbar-user-name');
+            if (navbarName) {
+                navbarName.textContent = 'Welcome';
+            }
+        }
+
+        loadUser();
+    </script>
 
     <!-- Contenitore Footer: popolato dinamicamente con il componente condiviso footer.html -->
     <div id="footer">

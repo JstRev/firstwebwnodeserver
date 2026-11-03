@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Contenitore Navbar condivisa -->
     <div id="navbar">
         <script>
             fetch('/api/v1/components/navbar.html')
@@ -21,23 +20,21 @@
         </script>
     </div>
 
-    <!-- Pagina descrittiva dell'applicazione -->
     <main class="about-wrapper">
         <div class="about-box">
             <h2>About My App</h2>
-            <p>My App è una semplice applicazione web che dimostra l'uso di HTML, CSS e JavaScript per creare pagine moderne e responsive.</p>
+            <p>My App is a modern web application built to showcase clean interfaces, responsive layouts, and smooth user experiences using HTML, CSS, and JavaScript.</p>
 
-            <h3>Cosa offriamo</h3>
+            <h3>What we offer</h3>
             <ul class="feature-list">
-                <li>Interfaccia pulita e responsive</li>
-                <li>Navigazione semplice tra le pagine</li>
-                <li>Form di login e registrazione</li>
-                <li>Integrazione con API meteo</li>
+                <li>Clean and responsive interface</li>
+                <li>Simple page navigation</li>
+                <li>Login and sign-up flow</li>
+                <li>Weather API integration</li>
             </ul>
         </div>
     </main>
 
-    <!-- Contenitore Footer condiviso -->
     <div id="footer">
         <script>
             fetch('/api/v1/components/footer.html')

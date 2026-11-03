@@ -1,82 +1,102 @@
-/* ===== Reset e box model ===== */
+:root {
+    --bg-1: #f4f7ff;
+    --bg-2: #edf7ff;
+    --panel: rgba(255, 255, 255, 0.85);
+    --primary: #6d5efc;
+    --primary-dark: #4f46e5;
+    --secondary: #66d9ff;
+    --text: #18212f;
+    --muted: #5f6f82;
+    --border: rgba(148, 163, 184, 0.22);
+    --shadow: 0 20px 45px rgba(79, 70, 229, 0.12);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* ===== Struttura principale della pagina ===== */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e3e9f0, #cfd9e8);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(109, 94, 252, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(102, 217, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    color: var(--text);
 }
 
-/* ===== Contenitore per centrare il box a schermo ===== */
 .signup-wrapper {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 40px 20px;
 }
 
-/* ===== Card bianca con ombra ed animazione di comparsa ===== */
 .signup-box {
-    background: #ffffff;
-    padding: 30px 35px;
-    border-radius: 12px;
-    width: 320px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+    padding: 34px 28px;
+    border-radius: 22px;
+    width: min(100%, 380px);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.4s ease;
 }
 
 .signup-box h2 {
     text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-weight: 600;
+    margin-bottom: 22px;
+    color: var(--text);
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
 }
 
-/* ===== Campi di input del modulo ===== */
 .signup-box input {
     width: 100%;
-    padding: 12px;
+    padding: 13px 14px;
     margin: 10px 0 18px 0;
-    border: 2px solid #d0d0d0;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: border-color 0.2s;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    border-radius: 12px;
+    font-size: 0.98rem;
+    color: var(--text);
+    background: rgba(248, 250, 255, 0.9);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .signup-box input:focus {
-    border-color: #0078ff;
+    border-color: rgba(109, 94, 252, 0.6);
+    box-shadow: 0 0 0 4px rgba(109, 94, 252, 0.08);
     outline: none;
 }
 
-/* ===== Pulsante di invio con stati hover e active ===== */
 .signup-box button {
     width: 100%;
-    padding: 12px;
-    background: #0078ff;
+    padding: 13px 16px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.25s, transform 0.1s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 12px 24px rgba(109, 94, 252, 0.2);
 }
 
 .signup-box button:hover {
-    background: #005fcc;
+    transform: translateY(-1px);
 }
 
 .signup-box button:active {
-    transform: scale(0.98);
+    transform: scale(0.99);
 }
 
-/* ===== Animazione di entrata dal basso verso l'alto ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;

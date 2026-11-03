@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheda FBI del giorno</title>
+    <title>FBI Daily Brief</title>
 
     <link rel="stylesheet" href="/api/v1/css/navbar.css">
     <link rel="stylesheet" href="/api/v1/css/footer.css">
@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <!-- La barra di navigazione è condivisa con le altre pagine. -->
     <div id="navbar"></div>
     <script>
         fetch("/api/v1/components/navbar.html")
@@ -23,13 +22,12 @@
 
     <main class="weather-wrapper fbi-wrapper">
         <section class="weather-box fbi-box">
-            <h1>Scheda FBI del giorno</h1>
-            <p class="subtitle">Una persona ricercata o una segnalazione dall'elenco pubblico FBI.</p>
-            <div id="fbi-result" aria-live="polite">Caricamento ...</div>
+            <h1>FBI Daily Brief</h1>
+            <p class="subtitle">A wanted person or a public alert from the FBI most wanted list.</p>
+            <div id="fbi-result" aria-live="polite">Loading...</div>
         </section>
     </main>
 
-    <!-- Anche il piè di pagina è condiviso con le altre pagine. -->
     <div id="footer"></div>
     <script>
         fetch("/api/v1/components/footer.html")
