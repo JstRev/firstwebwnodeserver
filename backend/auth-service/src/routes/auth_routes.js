@@ -12,11 +12,13 @@ const router = express.Router();
  * - GET /logout:                 Destroys the session and logs the user out
  */
 
+const AUTH_GOOGLE_URL = "http://localhost:4000/api/v1/auth/google";
 const HOME_URL = "http://localhost:4000/api/v1/";
+const LOGIN_URL = "http://localhost:4000/api/v1/login";
 
 // Redirect /login to Google OAuth
 router.get("/login", (req, res) => {
-    res.redirect("/google");
+    res.redirect(AUTH_GOOGLE_URL);
 });
 
 // Initiate Google OAuth flow (requests profile and email scopes)
@@ -31,13 +33,13 @@ const googleCallbackHandler = (req, res) => {
 
 router.get(
     "/google/callback",
-    passport.authenticate("google", { failureRedirect: "http://localhost:4000/api/v1/login" }),
+    passport.authenticate("google", { failureRedirect: LOGIN_URL }),
     googleCallbackHandler
 );
 
 router.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "http://localhost:4000/api/v1/login" }),
+    passport.authenticate("google", { failureRedirect: LOGIN_URL }),
     googleCallbackHandler
 );
 
@@ -54,7 +56,7 @@ router.get("/validate", (req, res) => {
 router.get("/logout", (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ error: "Logout failed" });
-        res.redirect("/login");
+        res.redirect(LOGIN_URL);
     });
 });
 
