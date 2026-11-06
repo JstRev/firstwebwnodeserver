@@ -6,41 +6,43 @@ setlocal enableextensions enabledelayedexpansion
 :: =================================================================
 set "BACKUP_DIR=Z:\INFO\.env_progettonode"
 
-echo 🔄 Sincronizzazione file .env nelle rispettive cartelle del progetto...
+echo 🔄 Sincronizzazione file .env dalle variabili salvate nel backup...
 echo.
 
-:: 1) Auth service
-if exist "%BACKUP_DIR%\.env.auth" (
-    copy /Y "%BACKUP_DIR%\.env.auth" ".\backend\auth-service\.env.auth" > nul
-    echo [OK] .env.auth copiato in backend\auth-service
-) else (
-    echo [ERRORE] File non trovato: %BACKUP_DIR%\.env.auth
+if not exist "%BACKUP_DIR%" (
+    echo [ERRORE] Directory backup non trovata: %BACKUP_DIR%
+    echo Assicurati che la cartella esista e contenga i file .env.*
+    goto end
 )
 
-:: 2) Gateway
-if exist "%BACKUP_DIR%\.env.gateway" (
-    copy /Y "%BACKUP_DIR%\.env.gateway" ".\backend\gateway\.env.gateway" > nul
-    echo [OK] .env.gateway copiato in backend\gateway
-) else (
-    echo [ERRORE] File non trovato: %BACKUP_DIR%\.env.gateway
-)
-
-:: 3) Backend service
-if exist "%BACKUP_DIR%\.env.weather" (
-    copy /Y "%BACKUP_DIR%\.env.weather" ".\backend\service\.env.weather" > nul
-    echo [OK] .env.weather copiato in backend\service
-) else (
-    echo [ERRORE] File non trovato: %BACKUP_DIR%\.env.weather
-)
-
-:: 4) Frontend (opzionale, solo se lo usi davvero)
-if exist "%BACKUP_DIR%\.env.frontend" (
-    copy /Y "%BACKUP_DIR%\.env.frontend" ".\frontend\.env.frontend" > nul
-    echo [OK] .env.frontend copiato in frontend
-) else (
-    echo [INFO] Nessun .env.frontend presente nel backup.
-)
+call :copy_env ".env.auth" ".\backend\auth-service\.env"
+call :copy_env ".env.gateway" ".\backend\gateway\.env"
+call :copy_env ".env.weather" ".\backend\service\.env"
+call :copy_env ".env.frontend" ".\frontend\.env"
 
 echo.
 echo 🏁 Operazione completata!
+exit /b 0
+
+:copy_env
+set "SOURCE_FILE=%~1"
+set "TARGET_FILE=%~2"
+set "TARGET_DIR=%~dp2"
+
+if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%" >nul 2>&1
+
+if exist "%BACKUP_DIR%\%SOURCE_FILE%" (
+    copy /Y "%BACKUP_DIR%\%SOURCE_FILE%" "%TARGET_FILE%" >nul
+    echo [OK] %SOURCE_FILE% copiato in %TARGET_FILE%
+) else (
+    echo [INFO] %SOURCE_FILE% non presente nel backup.
+)
+
+for %%F in ("%TARGET_DIR%.env*") do (
+    if /I not "%%~nxF"=="%~nx2" del /q "%%~fF" >nul 2>&1
+)
+
+exit /b 0
+
+:end
 endlocal
