@@ -6,30 +6,30 @@ const router = express.Router();
 
 /**
  * Route GET per servire le pagine HTML statiche del frontend.
- * I file inviati si trovano nella cartella frontend/public.
+ * I file inviati si trovano nella cartella frontend/public/html.
  */
 router.get("/", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "index.html"));
+    res.sendFile(path.join(paths.HTML, "index.html"));
 });
 
 router.get("/login", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "login.html"));
+    res.sendFile(path.join(paths.HTML, "login.html"));
 });
 
 router.get("/signup", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "signup.html"));
+    res.sendFile(path.join(paths.HTML, "signup.html"));
 });
 
 router.get("/about", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "about.html"));
+    res.sendFile(path.join(paths.HTML, "about.html"));
 });
 
 router.get("/contact", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "contact.html"));
+    res.sendFile(path.join(paths.HTML, "contact.html"));
 });
 
 router.get("/weather", (req, res) => {
-    res.sendFile(path.join(paths.PUBLIC, "weather.html"));
+    res.sendFile(path.join(paths.HTML, "weather.html"));
 });
 
 module.exports = router;

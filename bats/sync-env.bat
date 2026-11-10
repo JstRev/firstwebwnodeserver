@@ -1,6 +1,9 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 
+cd /d "%~dp0"
+set "ROOT=%~dp0.."
+
 :: =================================================================
 :: PERCORSO DEL BACKUP ESTERNO
 :: =================================================================
@@ -15,10 +18,10 @@ if not exist "%BACKUP_DIR%" (
     goto end
 )
 
-call :copy_env ".env.auth" ".\backend\auth-service\.env"
-call :copy_env ".env.gateway" ".\backend\gateway\.env"
-call :copy_env ".env.weather" ".\backend\service\.env"
-call :copy_env ".env.frontend" ".\frontend\.env"
+call :copy_env ".env.auth" "%ROOT%\backend\auth-service\.env"
+call :copy_env ".env.gateway" "%ROOT%\backend\gateway\.env"
+call :copy_env ".env.weather" "%ROOT%\backend\service\.env"
+call :copy_env ".env.frontend" "%ROOT%\frontend\.env"
 
 echo.
 echo 🏁 Operazione completata!

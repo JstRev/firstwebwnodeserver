@@ -11,6 +11,7 @@ module.exports = {
     ROOT: ROOT,
     SRC: path.join(ROOT, "src"),
     PUBLIC: FRONTEND_PUBLIC,
+    HTML: path.join(FRONTEND_PUBLIC, "html"),
     CONTROLLERS: path.join(ROOT, "src", "controllers"),
     ROUTES: path.join(ROOT, "src", "route"),
     UTILS: path.join(ROOT, "src", "utils")

@@ -1,34 +1,31 @@
 @echo off
-title Installazione dipendenze Node.js
+title Rimozione node_modules
 
 cd /d "%~dp0"
+set "ROOT=%~dp0.."
 
 echo.
 echo ==============================
-echo INSTALLAZIONE GATEWAY
+echo RIMOZIONE GATEWAY
 echo ==============================
-cd backend\gateway
-call npm install
+rmdir /s /q "%ROOT%\backend\gateway\node_modules"
 
 echo.
 echo ==============================
-echo INSTALLAZIONE AUTH-SERVICE
+echo RIMOZIONE AUTH-SERVICE
 echo ==============================
-cd ..\auth-service
-call npm install
+rmdir /s /q "%ROOT%\backend\auth-service\node_modules"
 
 echo.
 echo ==============================
-echo INSTALLAZIONE SERVICE
+echo RIMOZIONE SERVICE
 echo ==============================
-cd ..\service
-call npm install
+rmdir /s /q "%ROOT%\backend\service\node_modules"
 
 echo.
 echo ==============================
-echo INSTALLAZIONE COMPLETATA
+echo RIMOZIONE COMPLETATA
 echo ==============================
-echo.
 
 pause
 
