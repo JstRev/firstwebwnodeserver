@@ -20,7 +20,13 @@ router.get("/login", (req, res) => {
 });
 
 // Initiate Google OAuth flow (requests profile and email scopes)
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+    "/google",
+    passport.authenticate("google", {
+        scope: ["profile", "email"],
+        prompt: "select_account"
+    })
+);
 
 // Handle Google OAuth callback (supports both /google/callback and /auth/google/callback)
 router.get(
