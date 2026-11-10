@@ -8,17 +8,13 @@
     <link rel="stylesheet" href="/api/v1/css/navbar.css">
     <link rel="stylesheet" href="/api/v1/css/footer.css">
     <link rel="stylesheet" href="/api/v1/css/weather.css">
+    <script src="/api/v1/js/navbar.js" defer></script>
+    <script src="/api/v1/js/footer.js" defer></script>
 </head>
 
 <body>
 
-    <div id="navbar">
-        <script>
-            fetch("/api/v1/components/navbar.html")
-                .then(res => res.text())
-                .then(html => document.getElementById("navbar").innerHTML = html);
-        </script>
-    </div>
+    <div id="navbar"></div>
 
     <div class="weather-wrapper">
         <div class="weather-box">
@@ -34,13 +30,7 @@
         <div class="weather-box" id="weather-result"></div>
     </div>
 
-    <div id="footer">
-        <script>
-            fetch("/api/v1/components/footer.html")
-                .then(res => res.text())
-                .then(html => document.getElementById("footer").innerHTML = html);
-        </script>
-    </div>
+    <div id="footer"></div>
 
     <script src="/api/v1/js/weather.js"></script>
 </body>

@@ -10,15 +10,12 @@
     <link rel="stylesheet" href="/api/v1/css/footer.css">
     <link rel="stylesheet" href="/api/v1/css/weather.css">
     <link rel="stylesheet" href="/api/v1/css/fbi.css">
+    <script src="/api/v1/js/navbar.js" defer></script>
+    <script src="/api/v1/js/footer.js" defer></script>
 </head>
 
 <body>
     <div id="navbar"></div>
-    <script>
-        fetch("/api/v1/components/navbar.html")
-            .then(response => response.text())
-            .then(html => document.getElementById("navbar").innerHTML = html);
-    </script>
 
     <main class="weather-wrapper fbi-wrapper">
         <section class="weather-box fbi-box">
@@ -29,11 +26,6 @@
     </main>
 
     <div id="footer"></div>
-    <script>
-        fetch("/api/v1/components/footer.html")
-            .then(response => response.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
     <script src="/api/v1/js/FBI.js"></script>
 </body>
 </html>

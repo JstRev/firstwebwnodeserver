@@ -1,6 +1,3 @@
-// Va incluso in ogni pagina al posto dello script inline che faceva fetch 
-// della navbar:
-//novo DOM della navbar
 async function loadNavbar() {
     const container = document.getElementById("navbar");
     if (!container) return;
@@ -9,7 +6,8 @@ async function loadNavbar() {
     container.innerHTML = html;
 
     const welcomeBadge = document.getElementById("navbar-user-name");
-    const loginLink = document.querySelector('.nav-links a[href="/api/v1/login"]');
+    const navLinks = document.querySelector(".nav-links");
+    let loginLink = document.querySelector('.nav-links a[href="/api/v1/login"]');
 
     try {
         const response = await fetch("/api/v1/auth/me");
@@ -19,11 +17,25 @@ async function loadNavbar() {
 
         if (user.authenticated) {
             const firstName = user.firstName || user.displayName?.split(" ")[0] || "User";
-            welcomeBadge.textContent = `Welcome ${firstName}`;
+            if (welcomeBadge) {
+                welcomeBadge.textContent = `Welcome ${firstName}`;
+            }
 
             if (loginLink) {
                 loginLink.href = "/api/v1/auth/logout";
                 loginLink.textContent = "Logout";
+                loginLink.setAttribute("data-auth-action", "logout");
+                return;
+            }
+
+            if (navLinks) {
+                const logoutItem = document.createElement("li");
+                const logoutLink = document.createElement("a");
+                logoutLink.href = "/api/v1/auth/logout";
+                logoutLink.textContent = "Logout";
+                logoutLink.setAttribute("data-auth-action", "logout");
+                logoutItem.appendChild(logoutLink);
+                navLinks.appendChild(logoutItem);
             }
         } else if (welcomeBadge) {
             welcomeBadge.textContent = "Welcome";

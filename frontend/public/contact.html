@@ -8,17 +8,13 @@
     <link rel="stylesheet" href="/api/v1/css/contact.css">
     <link rel="stylesheet" href="/api/v1/css/navbar.css">
     <link rel="stylesheet" href="/api/v1/css/footer.css">
+    <script src="/api/v1/js/navbar.js" defer></script>
+    <script src="/api/v1/js/footer.js" defer></script>
 </head>
 
 <body>
 
-    <div id="navbar">
-        <script>
-            fetch('/api/v1/components/navbar.html')
-                .then(response => response.text())
-                .then(html => document.getElementById('navbar').innerHTML = html);
-        </script>
-    </div>
+    <div id="navbar"></div>
 
     <main class="contact-wrapper">
         <div class="contact-box">
@@ -42,13 +38,7 @@
         </div>
     </main>
 
-    <div id="footer">
-        <script>
-            fetch('/api/v1/components/footer.html')
-                .then(response => response.text())
-                .then(html => document.getElementById('footer').innerHTML = html);
-        </script>
-    </div>
+    <div id="footer"></div>
 
 </body>
 
