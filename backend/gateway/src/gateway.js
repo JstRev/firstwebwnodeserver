@@ -18,32 +18,6 @@ const app = express();
  *    - /api/v1        -> Main Service Node/Express (porta 3000)
  */
 
-// Proxy diretto verso Auth Service per i percorsi usati da login/logout e Google OAuth
-app.use("/login", createProxyMiddleware({
-  target: config.AUTH_SERVICE_URL,
-  changeOrigin: true
-}));
-
-app.use("/google", createProxyMiddleware({
-  target: config.AUTH_SERVICE_URL,
-  changeOrigin: true
-}));
-
-app.use("/google/callback", createProxyMiddleware({
-  target: config.AUTH_SERVICE_URL,
-  changeOrigin: true
-}));
-
-app.use("/auth/google", createProxyMiddleware({
-  target: config.AUTH_SERVICE_URL,
-  changeOrigin: true
-}));
-
-app.use("/auth/google/callback", createProxyMiddleware({
-  target: config.AUTH_SERVICE_URL,
-  changeOrigin: true
-}));
-
 // Proxy verso Auth Service (autenticazione / login Google)
 app.use("/api/v1/auth", createProxyMiddleware({
   target: config.AUTH_SERVICE_URL,

@@ -1,47 +1,62 @@
 const express = require("express");
 const passport = require("passport");
+const env = require("../../config/env");
 
 const router = express.Router();
 
 /**
  * Authentication routes:
  * - GET /login:                  Redirects to Google OAuth flow
- * - GET /auth/google:            Initiates Google OAuth authentication
- * - GET /auth/google/callback:   Handles the Google OAuth callback
+ * - GET /google:                 Initiates Google OAuth authentication
+ * - GET /google/callback:        Handles the Google OAuth callback (matches Google Console URI)
+ * - GET /auth/google/callback:   Alias for backward compatibility
  * - GET /validate:               Checks if the current session is authenticated
  * - GET /logout:                 Destroys the session and logs the user out
  */
 
-const AUTH_GOOGLE_URL = "http://localhost:4000/api/v1/auth/google";
-const HOME_URL = "http://localhost:4000/api/v1/";
-const LOGIN_URL = "http://localhost:4000/api/v1/login";
-
 // Redirect /login to Google OAuth
 router.get("/login", (req, res) => {
-    res.redirect(AUTH_GOOGLE_URL);
+    res.redirect("/google");
 });
 
 // Initiate Google OAuth flow (requests profile and email scopes)
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-// Handle Google OAuth callback
-const googleCallbackHandler = (req, res) => {
-    const userName = req.user?.displayName || req.user?.email || "user";
-    res.redirect(`${HOME_URL}?welcome=${encodeURIComponent(userName)}`);
-};
-
+// Handle Google OAuth callback (supports both /google/callback and /auth/google/callback)
 router.get(
-    "/google/callback",
-    passport.authenticate("google", { failureRedirect: LOGIN_URL }),
-    googleCallbackHandler
+    ["/google/callback", "/auth/google/callback"],
+    passport.authenticate("google", { 
+        failureRedirect: "/login", 
+        session: true 
+    }),
+
+    (req, res) => {
+        // Successful authentication – redirect to frontend (session carries the user)
+        res.redirect(env.FRONTEND_URL);
+    }
 );
 
-router.get(
-    "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: LOGIN_URL }),
-    googleCallbackHandler
-);
+// Return the authenticated user's information if logged in
+router.get("/me", (req, res) => {
+    res.set("Cache-Control", "no-store"); // Prevent caching of sensitive user data
+    if (req.isAuthenticated && req.isAuthenticated() && req.user) {
+        return res.json({ 
+            authenticated: true, 
+            user: req.user,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            displayName: req.user.displayName,
+            email: req.user.email
+        });
+    }
+    return res.json({ 
+        authenticated: false, 
+        user: null,
+        firstName: null,
+        lastName: null
+    });
+});
+
 
 // Validate whether the current session is authenticated
 router.get("/validate", (req, res) => {
@@ -52,11 +67,11 @@ router.get("/validate", (req, res) => {
     }
 });
 
-// Logout: destroy the session and redirect to login
+// Logout: destroy the session and redirect to the frontend login page
 router.get("/logout", (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ error: "Logout failed" });
-        res.redirect(LOGIN_URL);
+        res.redirect(env.FRONTEND_URL + "login");
     });
 });
 
