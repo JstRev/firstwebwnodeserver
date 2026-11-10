@@ -32,4 +32,8 @@ router.get("/weather", (req, res) => {
     res.sendFile(path.join(paths.HTML, "weather.html"));
 });
 
+router.get(["/fbi", "/FBI", "/wanted"], (req, res) => {
+    res.sendFile(path.join(paths.HTML, "FBI.html"));
+});
+
 module.exports = router;
