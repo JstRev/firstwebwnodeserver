@@ -18,11 +18,13 @@ const pageRoutes = require("./route/pageroutes");
 const weatherRoutes = require("./route/weather");
 const authRoutes = require("./route/auth");
 const signinRoutes = require("./route/signin");
+const protectedRoutes = require("./route/protected");
 
-app.use("/", pageRoutes);    // Pagine HTML statiche (GET /, /about, /weather, etc.)
-app.use("/", weatherRoutes); // Endpoint meteo (POST /weather)
-app.use("/", authRoutes);    // Autenticazione (POST /login)
-app.use("/", signinRoutes);  // Registrazione utente (POST /signup)
+app.use("/", pageRoutes);      // Pagine HTML statiche (GET /, /about, /weather, etc.)
+app.use("/", weatherRoutes);    // Endpoint meteo (POST /weather)
+app.use("/", authRoutes);       // Autenticazione (POST /login)
+app.use("/", signinRoutes);     // Registrazione utente (POST /signup)
+app.use("/", protectedRoutes);  // Servizio protetto da Google auth
 
 // Servizio file statici (HTML, CSS, JS, immagini da frontend/public)
 app.use(express.static(path.join(__dirname, "../../../frontend/public")));

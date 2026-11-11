@@ -37,4 +37,59 @@ async function loadWelcomeGif() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadWelcomeGif);
+async function updateAuthState() {
+  const protectedButton = document.getElementById("protected-service-btn");
+
+  if (!protectedButton) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/v1/auth/me");
+    const data = await response.json();
+
+    protectedButton.disabled = !(response.ok && data.authenticated);
+  } catch (error) {
+    protectedButton.disabled = true;
+  }
+}
+
+async function callProtectedService() {
+  const resultBox = document.getElementById("protected-service-result");
+  const button = document.getElementById("protected-service-btn");
+
+  if (!resultBox || !button) {
+    return;
+  }
+
+  button.disabled = true;
+  resultBox.hidden = false;
+  resultBox.textContent = "Sto verificando il login con Google...";
+
+  try {
+    const response = await fetch("/api/v1/protected/test");
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || `Errore HTTP ${response.status}`);
+    }
+
+    resultBox.textContent = JSON.stringify(data, null, 2);
+    resultBox.style.color = "#0b6b39";
+  } catch (error) {
+    resultBox.textContent = error.message;
+    resultBox.style.color = "#b42318";
+  } finally {
+    button.disabled = false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadWelcomeGif();
+  updateAuthState();
+
+  const button = document.getElementById("protected-service-btn");
+  if (button) {
+    button.addEventListener("click", callProtectedService);
+  }
+});
